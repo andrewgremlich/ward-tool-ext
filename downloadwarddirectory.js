@@ -1,22 +1,25 @@
 console.log('The ward tools extension has been initiated.  Good to go!');
 
-const AppPanel = document.querySelector("[class*='AppPanel']");
-
-console.log(AppPanel);
+const BarButtons = document.querySelector("[class*='BarButtons']");
 
 const downloadLink = document.createElement("a"),
-  downloadButton = document.createElement("button"),
-  ExtensionPanel = document.createElement("div");
+  ExtensionButton = document.createElement("button");
 
-downloadButton.innerText = "Download whole ward";
-downloadButton.style.cssText = `
-  position: fixed;
-  bottom: 10px;
-  right: 300px;
-  font-size: 20px;
-  padding: 10px;
-  background: #325184;
-  color: #f4f4f4;
+BarButtons.insertBefore(ExtensionButton, BarButtons.firstChild);
+
+ExtensionButton.title = "Download ward data";
+
+ExtensionButton.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline points="7 10 12 15 17 10"></polyline>
+    <line x1="12" y1="15" x2="12" y2="3"></line>
+  </svg>
+`;
+
+ExtensionButton.style.cssText = `
+  border: none;
+  background: white;
 `;
 
 let trimmedDirectory = [];
@@ -97,6 +100,4 @@ const fetchUserInfo = () => {
     .catch(err => console.warn(err));
 }
 
-downloadButton.addEventListener('click', fetchUserInfo);
-
-document.querySelector("body").appendChild(downloadButton);
+ExtensionButton.addEventListener('click', fetchUserInfo);
