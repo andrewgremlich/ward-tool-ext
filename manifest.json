@@ -1,17 +1,17 @@
 {
-  "name": "Ward Tools API",
+  "name": "Ward Tools Extension",
   "version": "0.1",
-  "description": "Trying to access ward tools API.",
+  "description": "Extend the function of ward tools.",
   "manifest_version": 2,
-  "permissions": ["cookies", "activeTab", "tabs", "http://*/*", "https://*/*"],
+  "permissions": ["contextMenus"],
   "icons": {
     "16": "cookie.png",
     "48": "cookie.png",
     "128": "cookie.png"
   },
   "content_scripts": [{
-    "matches": ["*://*.lds.org/*"],
-    "js": ["testingInjection.js"]
+    "matches": ["*://directory-beta.lds.org/*", "*://directory.lds.org/*", "*://directory.churchofjesuschrist.org/*"],
+    "js": ["downloadwarddirectory.js"]
   }],
   "background": {
     "scripts": ["background.js"],

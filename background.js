@@ -1,46 +1,20 @@
-chrome.cookies.onChanged.addListener(function(info) {
-  console.log("onChanged" + JSON.stringify(info));
+// Set up context menu at install time.
+chrome.runtime.onInstalled.addListener(function() {
+  var context = "selection";
+  var title = "Google for Selected Text";
+  var id = chrome.contextMenus.create({
+    "title": title,
+    "contexts": [context],
+    "id": "context" + context
+  });
 });
 
-// function focusOrCreateTab(url) {
-//   chrome.windows.getAll({
-//     "populate": true
-//   }, function(windows) {
-//     var existing_tab = null;
-//     for (var i in windows) {
-//       var tabs = windows[i].tabs;
-//       for (var j in tabs) {
-//         var tab = tabs[j];
-//         if (tab.url == url) {
-//           existing_tab = tab;
-//           break;
-//         }
-//       }
-//     }
-//     if (existing_tab) {
-//       chrome.tabs.update(existing_tab.id, {
-//         "selected": true
-//       });
-//     } else {
-//       chrome.tabs.create({
-//         "url": url,
-//         "selected": true
-//       });
-//     }
-//   });
-// }
-// 
-// chrome.runtime.onMessage.addListener(
-//   function(message, callback) {
-//     if (message == "runContentScript") {
-//       chrome.tabs.executeScript({
-//         file: 'testing_injection.js'
-//       });
-//     }
-//   });
+// add click event
+chrome.contextMenus.onClicked.addListener(onClickHandler);
 
-
-// chrome.browserAction.onClicked.addListener(function(tab) {
-//   var manager_url = chrome.extension.getURL("manager.html");
-//   focusOrCreateTab(manager_url);
-// });
+// The onClicked callback function.
+function onClickHandler(info, tab) {
+  var sText = info.selectionText;
+  var url = "https://www.google.com/search?q=" + encodeURIComponent(sText);
+  window.open(url, '_blank');
+};
