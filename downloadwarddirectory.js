@@ -82,7 +82,7 @@ const fetchWard = data => {
   console.log("Got user info!");
 
   let homeUnitId = data.homeUnits[0];
-  let unitString = `https://directory-beta.lds.org/api/v4/households?unit=${homeUnitId}`;
+  let unitString = `https://directory.lds.org/api/v4/households?unit=${homeUnitId}`;
 
   console.log("Your unit Id is " + homeUnitId);
   console.log("API URL is " + unitString);
@@ -94,7 +94,7 @@ const fetchWard = data => {
 }
 
 const fetchUserInfo = () => {
-  fetch("https://directory-beta.lds.org/api/v4/user")
+  fetch("https://directory.lds.org/api/v4/user")
     .then(d => d.json())
     .then(fetchWard)
     .catch(err => console.warn(err));
