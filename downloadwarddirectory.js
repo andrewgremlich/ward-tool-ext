@@ -68,6 +68,16 @@ const processWardData = data => {
     console.log('Downloading...  See the download?');
 };
 
+const getCookie = name => {
+    var value = '; ' + document.cookie;
+    var parts = value.split('; ' + name + '=');
+    if (parts.length == 2)
+        return parts
+            .pop()
+            .split(';')
+            .shift();
+};
+
 const fetchWard = data => {
     console.log('Got user info!');
 
@@ -77,14 +87,18 @@ const fetchWard = data => {
     console.log('Your unit Id is ' + homeUnitId);
     console.log('API URL is ' + unitString);
 
-    fetch(unitString)
+    fetch(unitString, {
+        headers: { authorization: `Bearer ${getCookie('directory_access_token')}` }
+    })
         .then(d => d.json())
         .then(processWardData)
         .catch(err => console.warn(err));
 };
 
 const fetchUserInfo = () => {
-    fetch('https://directory.churchofjesuschrist.org/api/v4/user')
+    fetch('https://directory.churchofjesuschrist.org/api/v4/user', {
+        headers: { authorization: `Bearer ${getCookie('directory_access_token')}` }
+    })
         .then(d => d.json())
         .then(fetchWard)
         .catch(err => console.warn(err));
